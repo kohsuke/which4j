@@ -46,7 +46,7 @@ import java.util.StringTokenizer;
  * This class can also be used programmatically to search a particular
  * ClassLoader for the first occurrence of the specified classname.
  * <p>
- * Revision: $Revision: 1.2 $
+ * Revision: $Revision: 1.3 $
  * 
  * @author <a href="mailto:Ryan.Shoemaker@Sun.COM">Ryan Shoemaker</a>, Sun Microsystems, Inc.
  * @version 0.1
@@ -88,15 +88,15 @@ public class Which4J {
         System.err.println(
             "usage: java Which4J [-debug] <classname>"
                 + "\n\tThe commandline version of Which4J will search the system"
-                + "\tclasspath defined in your environment for all occurences"
-                + "\tof the class.  Alternatively, you can use this class"
-                + "\tprogrammatically to search the current (or any) ClassLoader."
-                + "\tSee the javadoc for more detail."
+                + "\n\tclasspath defined in your environment for all occurences"
+                + "\n\tof the class.  Alternatively, you can use this class"
+                + "\n\tprogrammatically to search the current (or any) ClassLoader."
+                + "\n\tSee the javadoc for more detail."
                 + "\n\t"
                 + "\n\tNote: if the name of the jar file listed after \"found in:\""
-                + "\tdoesn't match the name of the jar listed next to \"url:\", then "
-                + "\tthere is likely a \"Class-Path\" entry in the jar manifest "
-                + "\tthat is causing the classloader to indirectly find the class.");
+                + "\n\tdoesn't match the name of the jar listed next to \"url:\", then "
+                + "\n\tthere is likely a \"Class-Path\" entry in the jar manifest "
+                + "\n\tthat is causing the classloader to indirectly find the class.");
         System.exit(-1);
     }
 
@@ -147,6 +147,9 @@ public class Which4J {
                     classname.replace('.', '/') + ".class";
 
                 URL it = cl.findResource(classnameAsResource);
+                if (it == null) {
+                    it = ClassLoader.getSystemResource(classnameAsResource);
+                }
                 if (it != null) {
                     System.out.println("found in: " + token);
                     System.out.println("     url: " + it.toString());
