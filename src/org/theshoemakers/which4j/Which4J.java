@@ -46,7 +46,7 @@ import java.util.StringTokenizer;
  * This class can also be used programmatically to search a particular
  * ClassLoader for the first occurrence of the specified classname.
  * <p>
- * Revision: $Revision: 1.3 $
+ * Revision: $Revision: 1.4 $
  * 
  * @author <a href="mailto:Ryan.Shoemaker@Sun.COM">Ryan Shoemaker</a>, Sun Microsystems, Inc.
  * @version 0.1
@@ -129,6 +129,9 @@ public class Which4J {
             StringTokenizer st =
                 new StringTokenizer(classpath, File.pathSeparator);
 
+            String classnameAsResource  = classname.replace('.', '/') + ".class";
+            boolean checkSystemClassLoader = true;
+            
             while (st.hasMoreTokens()) {
                 String token = st.nextToken();
                 File classpathElement = new File(token);
@@ -143,16 +146,20 @@ public class Which4J {
 
                 URLClassLoader cl = URLClassLoader.newInstance(url, null);
 
-                String classnameAsResource =
-                    classname.replace('.', '/') + ".class";
-
                 URL it = cl.findResource(classnameAsResource);
-                if (it == null) {
-                    it = ClassLoader.getSystemResource(classnameAsResource);
-                }
                 if (it != null) {
+                    checkSystemClassLoader = false;
                     System.out.println("found in: " + token);
                     System.out.println("     url: " + it.toString());
+                    System.out.println("");
+                }
+            }
+            
+            if (checkSystemClassLoader) {
+                URL it = ClassLoader.getSystemResource(classnameAsResource);
+                if (it != null) {
+                    checkSystemClassLoader = false;
+                    System.out.println("found in url: " + it.toString());
                     System.out.println("");
                 }
             }
