@@ -1,0 +1,129 @@
+<html>
+	<head>
+		<title>Which4J Release Notes</title>
+		<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1" />
+		<style>
+			pre.console {
+				background-color: black;
+				color: white;
+				font-weight: bold;
+				padding: 0.5em;
+				margin-left: 2em;
+			}
+			pre.java {
+				background-color: rgb(230,230,255);
+				color: navy;
+				font-weight: bold;
+				padding: 0.5em;
+				margin-left: 2em;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>Which4J Release Notes</h1>
+
+		<div align=right>
+			<a href="mailto:ryan.shoemaker@sun.com">Ryan Shoemaker</a>
+		</div>
+		
+		<h2>User's Guide</h2>
+		<blockquote>
+			<h3>Command line instructions</h3>
+			<p>Using Which4J from the command line is easy.  Simply add which4j.jar to
+			your classpath and run it.  Here are some examples:
+
+			<p>Here we see the usage message:			
+			<pre class="console">
+$ java org.theshoemakers.which4j.Which4J -help
+usage: java Which4J [-debug] <classname>
+
+        The commandline version of Which4J will search the system
+        classpath defined in your environment for all occurences
+        of the class.  Alternatively, you can use this class
+        programmatically to search the current (or any) ClassLoader.
+        See the javadoc for more detail.
+
+
+
+        Note: if the name of the jar file listed after "found in:"
+        doesn't match the name of the jar listed next to "url:", then
+        there is likely a "Class-Path" entry in the jar manifest
+        that is causing the classloader to indirectly find the class.
+			</pre>
+			
+			<p>In this example, we are using Which4J to find itself:
+			<pre class="console">
+$ java org.theshoemakers.which4j.Which4J org.theshoemakers.which4j.Which4J
+found in: d:/which4j-0.1/lib/which4j.jar
+     url: jar:file:/d:/which4j-0.1/lib/which4j.jar!/org/theshoemakers/which4j/Which4J.class
+			</pre>
+		</blockquote>
+
+		<blockquote>
+			<h3>Programmatic use</h3>
+			<p>The Which4J API's make it a snap to figure out where
+			the classloader is finding a particular class.  Here is
+			a simple example of the api in action - please refer to 
+			the <a href="api/index.html">javadoc</a> for more detail.
+			
+			<p>The following snippet of code shows how simple it is 
+			to figure out where a particular classloader is loading
+			a particular class from:
+			<pre class="java">
+System.out.println( 
+    org.theshoemakers.which4j.Which4J.which( "java.lang.String" ) );
+			</pre>
+			<p>And here is the output:
+			<pre class="console">
+jar:file:/D:/jdk1.4.1_03/jre/lib/rt.jar!/java/lang/String.class
+			</pre>
+		</blockquote>
+
+		<h2>Building</h2>
+		<p>Simply grab a copy of the cvs module from the 
+		<a href="https://which4j.dev.java.net/">Which4J homepage</a>
+		on java.net, cd into the root directory and launch ant.  The
+		build transcript should look something like this:
+		
+		<pre class="console">
+$ ant
+Buildfile: build.xml
+
+clean:
+
+compile:
+    [javac] Compiling 1 source file to D:\files\java.net\Which4J\build
+
+javadoc:
+    [mkdir] Created dir: D:\files\java.net\Which4J\docs\api
+  [javadoc] Generating Javadoc
+  [javadoc] Javadoc execution
+  [javadoc] Loading source files for package org.theshoemakers.which4j...
+  [javadoc] Constructing Javadoc information...
+  [javadoc] Standard Doclet version 1.4.1
+
+  [javadoc] Building tree for all the packages and classes...
+  [javadoc] Building index for all the packages and classes...
+  [javadoc] Building index for all classes...
+
+dist:
+    [mkdir] Created dir: D:\files\java.net\Which4J\dist\which4j-0.1
+    [mkdir] Created dir: D:\files\java.net\Which4J\dist\which4j-0.1\lib
+    [mkdir] Created dir: D:\files\java.net\Which4J\dist\which4j-0.1\docs
+      [jar] Building jar: D:\files\java.net\Which4J\dist\which4j-0.1\lib\which4j.jar
+     [copy] Copying 17 files to D:\files\java.net\Which4J\dist\which4j-0.1\docs
+     [copy] Copying 2 files to D:\files\java.net\Which4J\dist\which4j-0.1\docs
+     [copy] Copying 1 file to D:\files\java.net\Which4J\dist\which4j-0.1
+
+all:
+
+BUILD SUCCESSFUL
+Total time: 3 seconds		
+</pre>
+
+		This causes the entire project to be built and copied into 
+		the &quot;dist&quot; directory.
+
+	</body>
+</html>

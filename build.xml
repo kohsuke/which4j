@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<project name="which4j" basedir="." default="all">
+
+	<description>
+            which4j is utility that searches your system classpath for the 
+            specified class (resource) name.
+            
+            It also has API's for searching a class loader.
+
+            For more detail, run:
+                % java org.theshoemakers.tools.which4j.Which4J -help
+	</description>
+	
+	<property name="releaseid" value="0.1" />
+	
+    <!-- compile Java source files -->
+    <target name="compile"
+            description="compile all java sources into the build dir">
+        <mkdir dir="build"/>
+        <javac srcdir="src" destdir="build"
+            debug="true" optimize="true" deprecation="true" >
+        </javac>
+    </target>
+
+    <!-- generate javadoc -->
+	<target name="javadoc"
+	        depends="compile"
+	        description="generate javadoc for which4j into the docs dir">
+	    <mkdir dir="docs/api"/>
+        <javadoc packagenames="org.theshoemakers.which4j" 
+            sourcepath="${basedir}/src"
+            classpath="${basedir}/build"
+            destdir="${basedir}/docs/api"
+            use="true"
+            author="true"
+            version="true"
+            windowtitle="Which4J API"
+            doctitle="Which4J API" />
+	</target>
+	
+	<target name="dist"
+			depends="compile, javadoc">
+		<property name="distdir" value="dist/which4j-${releaseid}" />
+		<mkdir dir="${distdir}" />
+		<mkdir dir="${distdir}/lib" />
+		<mkdir dir="${distdir}/docs" />
+        <jar jarfile="${distdir}/lib/which4j.jar">
+            <fileset dir="build" />
+        </jar>
+        <copy todir="${distdir}/docs">
+        	<fileset dir="docs" includes="**/*" />
+        </copy>
+        <copy todir="${distdir}/docs">
+        	<fileset dir="www" includes="**/*.html" />
+        </copy>
+        <copy todir="${distdir}" file="LICENSE" />
+	</target>
+			
+	<target name="all"
+	        depends="clean, dist" />
+	        
+    <!-- remove all intermediate files -->
+    <target name="clean"
+            description="clean all build files">
+        <delete>
+        	<fileset dir="build" includes="**/*" />
+        </delete>
+        <delete dir="docs/api" />
+        <delete dir="dist" />
+    </target>
+
+</project>
