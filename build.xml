@@ -11,7 +11,8 @@
                 % java org.theshoemakers.tools.which4j.Which4J -help
 	</description>
 	
-	<property name="releaseid" value="0.2" />
+	<property name="releaseid"   value="0.21" />
+	<property name="fileRelease" value="0_21" />
 	
     <!-- compile Java source files -->
     <target name="compile"
@@ -40,6 +41,7 @@
 	
 	<target name="dist"
 			depends="compile, javadoc">
+		<property name="dist"    value="dist" />
 		<property name="distdir" value="dist/which4j-${releaseid}" />
 		<mkdir dir="${distdir}" />
 		<mkdir dir="${distdir}/lib" />
@@ -57,10 +59,17 @@
         	<fileset dir="www" includes="**/*.html" />
         </copy>
         <copy todir="${distdir}" file="LICENSE" />
+        
+        <!-- now generate the zip and tar files -->
+        <zip destfile="${dist}/which4j-${fileRelease}.zip" basedir="${distdir}"/>
+        <tar tarfile="${dist}/which4j-${fileRelease}.tar" basedir="${distdir}"/>
+        <gzip zipfile="${dist}/which4j-${fileRelease}.tar.gz" src="${dist}/which4j-${fileRelease}.tar"/>
+        <delete file="${dist}/which4j-${fileRelease}.tar"/>
 	</target>
 	
 	<target name="test"
-	        depends="compile">
+	        depends="compile"
+	        description="run some silly tests">
 	    <mkdir dir="test/build"/>
         <javac srcdir="test/src" destdir="test/build"
             debug="true" optimize="true" deprecation="true" >
