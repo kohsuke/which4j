@@ -11,7 +11,7 @@
                 % java org.theshoemakers.tools.which4j.Which4J -help
 	</description>
 	
-	<property name="releaseid" value="0.1" />
+	<property name="releaseid" value="0.2" />
 	
     <!-- compile Java source files -->
     <target name="compile"
@@ -47,6 +47,9 @@
         <jar jarfile="${distdir}/lib/which4j.jar">
             <fileset dir="build" />
         </jar>
+        <zip zipfile="${distdir}/lib/which4j-src.zip">
+            <fileset dir="src" />
+        </zip>
         <copy todir="${distdir}/docs">
         	<fileset dir="docs" includes="**/*" />
         </copy>
@@ -55,6 +58,24 @@
         </copy>
         <copy todir="${distdir}" file="LICENSE" />
 	</target>
+	
+	<target name="test"
+	        depends="compile">
+	    <mkdir dir="test/build"/>
+        <javac srcdir="test/src" destdir="test/build"
+            debug="true" optimize="true" deprecation="true" >
+        	<classpath>
+        		<pathelement path="${basedir}/build"/>
+        		<pathelement path="${basedir}/test/build"/>
+        	</classpath>
+        </javac>
+        <java classname="org.theshoemakers.which4j.Test" >
+        	<classpath>
+        		<pathelement path="${basedir}/build"/>
+        		<pathelement path="${basedir}/test/build"/>
+        	</classpath>
+        </java>
+    </target>
 			
 	<target name="all"
 	        depends="clean, dist" />

@@ -24,7 +24,7 @@
 		<h1>Which4J Release Notes</h1>
 
 		<div align=right>
-			<a href="mailto:ryan.shoemaker@sun.com">Ryan Shoemaker</a>
+			<a href="mailto:ryan_shoemaker@dev.java.net">Ryan Shoemaker</a>
 		</div>
 		
 		<h2>User's Guide</h2>
@@ -55,8 +55,8 @@ usage: java Which4J [-debug] <classname>
 			<p>In this example, we are using Which4J to find itself:
 			<pre class="console">
 $ java org.theshoemakers.which4j.Which4J org.theshoemakers.which4j.Which4J
-found in: d:/which4j-0.1/lib/which4j.jar
-     url: jar:file:/d:/which4j-0.1/lib/which4j.jar!/org/theshoemakers/which4j/Which4J.class
+found in: d:/which4j-0.2/lib/which4j.jar
+     url: jar:file:/d:/which4j-0.2/lib/which4j.jar!/org/theshoemakers/which4j/Which4J.class
 			</pre>
 		</blockquote>
 
@@ -78,6 +78,33 @@ System.out.println(
 			<pre class="console">
 jar:file:/D:/jdk1.4.1_03/jre/lib/rt.jar!/java/lang/String.class
 			</pre>
+			
+			<p>Which4J now also allows you to search based on Class 
+			instances in addition to class names.  It correctly handles 
+			Class objects for Java primitives, primitive and non-primitive 
+			array types, and the void type:</p>
+			
+			<pre class="java">
+System.out.println( Which4J.which( "java.lang.String" ) );
+System.out.println( Which4J.which( Which4J.class ) );
+System.out.println( Which4J.which( int.class ) );
+System.out.println( Which4J.which( (new Object[3]).getClass() ) );
+System.out.println( Which4J.which( (new int[3][4][5][6][7][8][9]).getClass() ) );
+System.out.println( Which4J.which( (new Which4J[3]).getClass() ) );
+            </pre>
+            
+            <p>Output will vary depending on your classpath, but here
+            is a sample of what you might see:</p>
+            
+            <pre class="console">
+jar:file:/D:/j2sdk1.4.2_01/jre/lib/rt.jar!/java/lang/String.class
+jar:file:/d:/which4j-0.2/lib/which4j.jar!/org/theshoemakers/which4j/Which4J.class
+'int' primitive
+jar:file:/D:/j2sdk1.4.2_01/jre/lib/rt.jar!/java/lang/Object.class
+'int' primitive
+jar:file:/d:/which4j-0.2/lib/which4j.jar!/org/theshoemakers/which4j/Which4J.class            			
+		    </pre>
+			
 		</blockquote>
 
 		<h2>Building</h2>
@@ -108,13 +135,13 @@ javadoc:
   [javadoc] Building index for all classes...
 
 dist:
-    [mkdir] Created dir: D:\files\java.net\Which4J\dist\which4j-0.1
-    [mkdir] Created dir: D:\files\java.net\Which4J\dist\which4j-0.1\lib
-    [mkdir] Created dir: D:\files\java.net\Which4J\dist\which4j-0.1\docs
-      [jar] Building jar: D:\files\java.net\Which4J\dist\which4j-0.1\lib\which4j.jar
-     [copy] Copying 17 files to D:\files\java.net\Which4J\dist\which4j-0.1\docs
-     [copy] Copying 2 files to D:\files\java.net\Which4J\dist\which4j-0.1\docs
-     [copy] Copying 1 file to D:\files\java.net\Which4J\dist\which4j-0.1
+    [mkdir] Created dir: D:\files\java.net\Which4J\dist\which4j-0.2
+    [mkdir] Created dir: D:\files\java.net\Which4J\dist\which4j-0.2\lib
+    [mkdir] Created dir: D:\files\java.net\Which4J\dist\which4j-0.2\docs
+      [jar] Building jar: D:\files\java.net\Which4J\dist\which4j-0.2\lib\which4j.jar
+     [copy] Copying 17 files to D:\files\java.net\Which4J\dist\which4j-0.2\docs
+     [copy] Copying 2 files to D:\files\java.net\Which4J\dist\which4j-0.2\docs
+     [copy] Copying 1 file to D:\files\java.net\Which4J\dist\which4j-0.2
 
 all:
 
