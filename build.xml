@@ -41,8 +41,9 @@
 	
 	<target name="dist"
 			depends="compile, javadoc">
-		<property name="dist"    value="dist" />
+		<property name="bundles" value="bundles" />
 		<property name="distdir" value="dist/which4j-${releaseid}" />
+		<mkdir dir="${bundles}" />
 		<mkdir dir="${distdir}" />
 		<mkdir dir="${distdir}/lib" />
 		<mkdir dir="${distdir}/docs" />
@@ -61,10 +62,10 @@
         <copy todir="${distdir}" file="LICENSE" />
         
         <!-- now generate the zip and tar files -->
-        <zip destfile="${dist}/which4j-${fileRelease}.zip" basedir="${distdir}"/>
-        <tar tarfile="${dist}/which4j-${fileRelease}.tar" basedir="${distdir}"/>
-        <gzip zipfile="${dist}/which4j-${fileRelease}.tar.gz" src="${dist}/which4j-${fileRelease}.tar"/>
-        <delete file="${dist}/which4j-${fileRelease}.tar"/>
+        <zip destfile="${bundles}/which4j-${fileRelease}.zip" basedir="${distdir}/.."/>
+        <tar tarfile="${bundles}/which4j-${fileRelease}.tar" basedir="${distdir}/.."/>
+        <gzip zipfile="${bundles}/which4j-${fileRelease}.tar.gz" src="${bundles}/which4j-${fileRelease}.tar"/>
+        <delete file="${bundles}/which4j-${fileRelease}.tar"/>
 	</target>
 	
 	<target name="test"
